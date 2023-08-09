@@ -37,7 +37,7 @@ router.post("/ajouterUnAmi", (req, res) => {
                 { $push: { "amis": req.body.idUser } },
             ).then(data => {
                 result.addUser = data; 
-                res.json(result); 
+                res.json({ result: true }); 
             });
         });
     })
