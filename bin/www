@@ -53,8 +53,7 @@ io.on("connection", (socket) => {
   });
   //! Gere les messages
   socket.on("messageSentToBack", (message,room) => {
-    //console.log('obj.id :>> ', obj.id);
-    //console.log("message :>> ",obj.message);
+    console.log("message :>> ",message);
     console.log('room :>> ', room);
     
     socket.to(room).emit("messageReceivedToFront", message);
