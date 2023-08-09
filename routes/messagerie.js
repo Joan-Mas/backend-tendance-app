@@ -24,21 +24,23 @@ router.post("/amis",(req,res)=>{
 router.post("/ajouterUnAmi", (req, res) => {
     
     let result ={};
-    
+    Event.findById(req.body.idEvent).populate('creatorName').then(data=>{
+        let idAmi = data.creatorName._id
 
-    User.findOneAndUpdate(
-        { _id: req.body.idUser },
-        { $push: { "amis": req.body.idAmi } },
-    ).then(data => {
-        result.addAmi = data; 
         User.findOneAndUpdate(
-            { _id: req.body.idAmi },
-            { $push: { "amis": req.body.idUser } },
+            { _id: req.body.idUser },
+            { $push: { "amis": idAmi } },
         ).then(data => {
-            result.addUser = data; 
-            res.json(result); 
+            result.addAmi = data; 
+            User.findOneAndUpdate(
+                { _id: idAmi },
+                { $push: { "amis": req.body.idUser } },
+            ).then(data => {
+                result.addUser = data; 
+                res.json(result); 
+            });
         });
-    });
+    })
 });
 
 
