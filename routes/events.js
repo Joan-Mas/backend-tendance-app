@@ -48,7 +48,7 @@ router.post("/publishEvent", async (req, res) => {
         price: req.body.price,
         website: req.body.website,
         description: req.body.description,
-        eventCover: "",      // à modifier : mise en place de l'upload de la photo par le user
+        eventCover: req.body.eventCover,      // à modifier : mise en place de l'upload de la photo par le user
         users: 
           {
             interUsers: [],
