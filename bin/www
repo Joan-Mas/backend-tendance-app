@@ -52,12 +52,11 @@ io.on("connection", (socket) => {
     console.log(`User left room: ${room}`);
   });
   //! Gere les messages
-  socket.on("messageSentToBack", (obj,room) => {
-    console.log('obj.id :>> ', obj.id);
-    console.log("message :>> ",obj.message);
+  socket.on("messageSentToBack", (message,room) => {
+    console.log("message :>> ",message);
     console.log('room :>> ', room);
     
-    socket.to(room).emit("messageReceivedToFront", {message:obj.message,id:obj.id});
+    socket.to(room).emit("messageReceivedToFront", message);
     
   });
 
