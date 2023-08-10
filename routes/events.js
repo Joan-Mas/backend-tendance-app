@@ -7,7 +7,31 @@ const Event = require("../models/events");
 const User = require("../models/users");
 const { checkBody } = require("../modules/checkBody");
 
+const cloudinary = require('cloudinary').v2;
+const fs = require('fs');
+const uniqid = require('uniqid');
 
+
+
+
+router.post("/upload", async (req, res) => {
+    const photoPath = `./tmp/${uniqid()}.jpg`;
+    const resultMove = await req.files.photoFromFront.mv(photoPath);
+
+    console.log(resultMove);
+
+    if (!resultMove) {
+
+        const resultCloudinary = await cloudinary.uploader.upload(photoPath);
+        fs.unlinkSync(photoPath);
+        res.json({ result: true, url: resultCloudinary.secure_url });
+
+    } else {
+
+        res.json({ result: false, error: resultMove });
+
+    }
+});
 
 //!__________POST /places : ajout d’un event en base de données (via req.body)__________________________
 
@@ -48,7 +72,7 @@ router.post("/publishEvent", async (req, res) => {
         price: req.body.price,
         website: req.body.website,
         description: req.body.description,
-        eventCover: "",      // à modifier : mise en place de l'upload de la photo par le user
+        eventCover: req.body.eventCover,      // à modifier : mise en place de l'upload de la photo par le user
         users: 
           {
             interUsers: [],

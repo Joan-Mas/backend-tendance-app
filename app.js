@@ -13,6 +13,9 @@ const messagerieRouter = require("./routes/messagerie");
 
 var app = express();
 
+const fileUpload = require('express-fileupload');
+app.use(fileUpload());
+
 const cors = require('cors');
 app.use(cors());
 
