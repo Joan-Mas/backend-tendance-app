@@ -15,10 +15,11 @@ const uniqid = require('uniqid');
 
 
 router.post("/upload", async (req, res) => {
+  console.log("route upload")
     const photoPath = `./tmp/${uniqid()}.jpg`;
     const resultMove = await req.files.photoFromFront.mv(photoPath);
 
-    console.log(resultMove);
+    //console.log(resultMove);
 
     if (!resultMove) {
 
